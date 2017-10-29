@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import ListContacts from './ListContacts';
 import CreateContact from './CreateContact';
 import * as api from './utils/ContactsAPI';
@@ -31,9 +31,13 @@ class App extends Component {
     });
   }
 
+  notFoundPage() {
+    return <h2>404! Page not found.</h2>
+  }
+
   render() {
     return (
-      <div>
+      <Switch>
         <Route exact path="/" render={() => (
           <ListContacts
             contacts={this.state.contacts}
@@ -48,7 +52,8 @@ class App extends Component {
             }}
           />
         )} />
-      </div>
+        <Route component={this.notFoundPage} />
+      </Switch>
     )
   }
 }
