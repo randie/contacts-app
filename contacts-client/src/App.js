@@ -31,6 +31,22 @@ class App extends Component {
     });
   }
 
+  homePage = () => (
+    <ListContacts
+      contacts={this.state.contacts}
+      onDeleteContact={this.deleteContact}
+    />
+  )
+
+  createPage = ({ history }) => (
+    <CreateContact
+      onCreateContact={newContact => {
+        this.createContact(newContact)
+        history.push('/')
+      }}
+    />
+  )
+
   notFoundPage() {
     return <h2>404! Page not found.</h2>
   }
@@ -38,21 +54,9 @@ class App extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" render={() => (
-          <ListContacts
-            contacts={this.state.contacts}
-            onDeleteContact={this.deleteContact}
-          />
-        )} />
-        <Route path="/create" render={({ history }) => (
-          <CreateContact
-            onCreateContact={newContact => {
-              this.createContact(newContact)
-              history.push('/')
-            }}
-          />
-        )} />
-        <Route component={this.notFoundPage} />
+        <Route exact path="/" render={this.homePage} />
+        <Route path="/create" render={this.createPage} />
+        <Route render={this.notFoundPage} />
       </Switch>
     )
   }
